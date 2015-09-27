@@ -1,35 +1,52 @@
-## Put comments here that give an overall description of what your
-## functions do
+## These functions handle the computation of matrix inversion.
+## For applications where some computations are repeated this solution can speed up the execution. 
+## The result is cached when first calculated and returned from cache when called again. 
+## This guarantees that the inverse of the matrix is computed only ones. 
 
-## Write a short comment describing this function
 
+## This function constructs a cached matrix object and should be used in conjunction with the cacheSolve function. 
+## A matrix is given as input.
 makeCacheMatrix <- function(x = matrix()) {
-  m <- NULL
+  m <- NULL ## Initiate m
+  
+  ## Define setter function for indata
   set <- function(y) {
     x <<- y
     m <<- NULL
   }
+  
+  ## Define getter function for indata
   get <- function() x
+  
+  ## Define setter function for result
   setinv <- function(solve) m <<- solve
+  
+  ## Define getter function for result
   getinv <- function() m
+  
+  ## Make cached matrix object and return it.
   list(set = set, get = get,
        setinv = setinv,
        getinv = getinv)
 }
 
 
-## Write a short comment describing this function
-
+## The cacheSolve function takes a cache matrix object as input and returns the invers of the matrix. 
+## If the invers is not yet calculated the inversion is performed and the result returned. 
+## When the inversion has been calculated in a previous call the result is returned immediately. 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  ## Get invers from cache matrix      
   m <- x$getinv()
+  
+  ## Check if value is calculated
   if(!is.null(m)) {
     message("getting cached data")
-    return(m)
+    return(m) ## return cached value and exit
   }
-  data <- x$get()
-  m <- solve(data, ...)
-  x$setinv(m)
+  
+  data <- x$get() ## Get indata from cache
+  m <- solve(data, ...) ## Compute inverse
+  x$setinv(m) ## Return a matrix that is the inverse of 'x'
 }
 
 
