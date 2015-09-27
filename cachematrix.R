@@ -49,17 +49,37 @@ cacheSolve <- function(x, ...) {
   x$setinv(m) ## Return a matrix that is the inverse of 'x'
 }
 
-
+## 
+## Test of 2x2 matrix inversion
+## Comparison should return a 2x2 matrix with TRUE values and the actual result below.
+##
 m1 <- matrix(c(1,2,3,4),2,2)
 mc1 <- makeCacheMatrix(m1)
 a1 <- cacheSolve(mc1)
 a1 == solve(m1)
 a1 <- cacheSolve(mc1)
+print(a1)
+## Expected result
+##      [,1] [,2]
+## [1,]   -2  1.5
+## [2,]    1 -0.5
 
+
+
+## 
+## Test of 4x4 matrix inversion
+## Comparison should return a 4x4 matrix with TRUE values  and the actual result below.
+##
 c2 <- c(1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 0, 1, 4, 2, 3 )
 m2 <- matrix(c2, 4,4)
 mc2 <- makeCacheMatrix(m2)
 a2 <- cacheSolve(mc2)
 a2 == solve(m2)
 a2 <- cacheSolve(mc2)
-
+print(a2)
+## Expected result
+##      [,1] [,2] [,3] [,4]
+## [1,]   -1   -2    3    1
+## [2,]    2    1   -3    0
+## [3,]    1    1   -1   -1
+## [4,]   -1    0    1    0
